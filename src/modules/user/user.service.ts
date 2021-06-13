@@ -13,7 +13,9 @@ export class UserService {
   ) {}
 
   async getUserList(): Promise<User[]> {
-    return await this.userRepository.find();
+    return this.userRepository.find({
+      select: ['id', 'name', 'email', 'isActive'],
+    });
   }
 
   async userAdd(newUser: User): Promise<User> {
@@ -32,5 +34,11 @@ export class UserService {
     await this.userRepository.save(user);
     delete user.password;
     return user;
+  }
+
+  async findOneUserByEmail(email: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({
+      email,
+    });
   }
 }
