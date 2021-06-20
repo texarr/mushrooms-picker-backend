@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
+import { MushroomPicking } from '../mushroom-picking/mushroom-picking.entity';
 
 @Entity()
 export class User {
@@ -25,6 +26,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => MushroomPicking, (mushroomPicks) => mushroomPicks.user)
+  mushroomPicks: MushroomPicking[];
 
   constructor() {
     this.isActive = false;
